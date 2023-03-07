@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  go-app:
+    container_name: go-app
+    build: .
+    environment:
+      DATABASE_URL: "host=pg_host_db user=semah password=admin dbname=mydb sslmode=disable"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pg_host_db
+  pg_host_db:
+    container_name: pg_host_db
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: semah
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+volumes:
+  pg_data: {}
